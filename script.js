@@ -1,44 +1,52 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // Step 1: Form and Feedback Selection
-  const form = document.getElementById("registration-form");
-  const feedbackDiv = document.getElementById("form-feedback");
+ 
+      document.addEventListener('DOMContentLoaded', function() {
+            // Select form and feedback elements
+            const form = document.getElementById('registration-form');
+            const feedbackDiv = document.getElementById('form-feedback');
 
-  // Step 2: Form Submission Event
-  form.addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent form from submitting
+            // Add submit event listener
+            form.addEventListener('submit', function(event) {
+                // Prevent form submission
+                event.preventDefault();
 
-    // Step 3: Input Retrieval and Trimming
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
+                // Get and trim input values
+                const username = document.getElementById('username').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value.trim();
 
-    // Step 4: Validation Setup
-    let isValid = true;
-    let messages = [];
+                // Initialize validation variables
+                let isValid = true;
+                const messages = [];
 
-    // Step 5: Username Validation
-    if (username.length < 3) {
-      isValid = false;
-      messages.push("Username must be at least 3 characters long.");
-    }
+                // Validate username (min 3 characters)
+                if (username.length < 3) {
+                    isValid = false;
+                    messages.push('Username must be at least 3 characters long.');
+                }
 
-    // Step 6: Email Validation
-    if (!email.includes("@") || !email.includes(".")) {
-      isValid = false;
-      messages.push("Please enter a valid email address.");
-    }
+                // Validate email (must contain @ and .)
+                if (!email.includes('@') || !email.includes('.') || email.indexOf('@') > email.lastIndexOf('.')) {
+                    isValid = false;
+                    messages.push('Please enter a valid email address (must contain @ and . in the correct order).');
+                }
 
-    // Step 7: Password Validation
-    if (password.length < 8) {
-      isValid = false;
-      messages.push("Password must be at least 8 characters long.");
-    }
+                // Validate password (min 8 characters)
+                if (password.length < 8) {
+                    isValid = false;
+                    messages.push('Password must be at least 8 characters long.');
+                }
 
-    // Step 8: Display Feedback
-    if (!isValid) {
-      feedbackDiv.innerHTML = `<ul style="color:red;">${messages.map(msg => `<li>${msg}</li>`).join('')}</ul>`;
-    } else {
-      feedbackDiv.innerHTML = `<p style="color:green;">Form submitted successfully!</p>`;
-    }
-  });
-});
+                // Display feedback
+                feedbackDiv.style.display = 'block';
+                
+                if (isValid) {
+                    feedbackDiv.textContent = 'Registration successful!';
+                    feedbackDiv.className = 'success';
+                    // Here you could actually submit the form to a server
+                    // form.submit();
+                } else {
+                    feedbackDiv.innerHTML = messages.join('<br>');
+                    feedbackDiv.className = 'error';
+                }
+            });
+        });
